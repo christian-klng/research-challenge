@@ -1,0 +1,5 @@
+{
+  "name": "NotebookLM Research Challenge",
+  "description": "Ein Zufallsgenerator für Recherche-Aufgaben im Unterricht. Erstellt Themen und Fragen, die mithilfe von NotebookLM und PDF-Quellen gelöst werden sollen.",
+  "requestFramePermissions": []
+}
