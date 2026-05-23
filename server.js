@@ -27,9 +27,32 @@ Das Ziel der Aufgabe für die Studierenden ist:
 3. Lade diese in 'NotebookLM' hoch.
 4. Beantworte eine sehr spezifische, schwierige Frage, die eine Synthese dieser Quellen erfordert.
 
-Die Themen sollten aus Bereichen wie Technologie, Soziologie, Umweltwissenschaften, Geschichte, Wirtschaft oder Ethik kommen.
 Die Frage darf nicht durch einfaches Googeln beantwortbar sein, sondern muss das Vergleichen von Quellen erfordern.
+Vermeide ausgetretene Pfade (z.B. KI-Ethik allgemein, Klimawandel allgemein, Social-Media-Wirkung). Wähle stattdessen ungewöhnliche, spezifische Nischen oder kontraintuitive Verbindungen zwischen zwei Feldern.
 Sprache: Deutsch.`;
+
+const DOMAINS = [
+  'Mikrobiologie', 'Stadtsoziologie', 'Geldpolitik', 'Materialwissenschaften',
+  'Postkoloniale Geschichte', 'Verhaltensökonomie', 'Wissenschaftstheorie',
+  'Meereskunde', 'Linguistik', 'Verkehrsplanung', 'Energiepolitik',
+  'Neurowissenschaften', 'Agrarwissenschaften', 'Kulturanthropologie',
+  'Kryptographie', 'Bioethik', 'Architekturtheorie', 'Demografie',
+  'Arbeitsrecht', 'Medizingeschichte', 'Lieferketten-Ökonomie',
+  'Kognitionspsychologie', 'Spieltheorie', 'Pharmakologie',
+  'Sportwissenschaften', 'Religionssoziologie', 'Migrationsforschung',
+  'Quantentechnologie', 'Geopolitik der Rohstoffe', 'Welternährung',
+];
+
+const ANGLES = [
+  'unerwartete historische Parallelen', 'methodischer Widerspruch zwischen Studien',
+  'Diskrepanz zwischen offiziellen Zahlen und Forschungsergebnissen',
+  'kultureller Vergleich zweier Regionen', 'Langzeitfolgen einer politischen Entscheidung',
+  'Zielkonflikt zwischen zwei legitimen Interessen', 'kontraintuitiver Effekt einer Maßnahme',
+  'Übersetzung von Laborergebnissen in die Praxis', 'Rolle einer übersehenen Akteursgruppe',
+  'ökonomische Externalitäten', 'ethisches Dilemma einer neuen Technologie',
+];
+
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
 const RESPONSE_SCHEMA = {
   type: 'object',
@@ -79,12 +102,19 @@ app.post('/api/generate-challenge', async (_req, res) => {
     return res.status(200).json(FALLBACK);
   }
 
+  const domain = pick(DOMAINS);
+  const angle = pick(ANGLES);
+  const userPrompt = `Erstelle eine anspruchsvolle Recherche-Aufgabe für Studierende.
+Fachgebiet diesmal: ${domain}.
+Aufhänger: ${angle}.
+Wähle bewusst einen sehr spezifischen Teilbereich innerhalb dieses Fachgebiets — keine Lehrbuch-Themen.`;
+
   try {
     const completion = await openai.chat.completions.create({
       model: MODEL,
       messages: [
         { role: 'system', content: SYSTEM_PROMPT },
-        { role: 'user', content: 'Erstelle eine anspruchsvolle Recherche-Aufgabe für Studierende.' },
+        { role: 'user', content: userPrompt },
       ],
       response_format: {
         type: 'json_schema',
@@ -94,7 +124,9 @@ app.post('/api/generate-challenge', async (_req, res) => {
           schema: RESPONSE_SCHEMA,
         },
       },
-      temperature: 1,
+      temperature: 1.1,
+      presence_penalty: 0.6,
+      frequency_penalty: 0.3,
     });
 
     const text = completion.choices[0]?.message?.content;
