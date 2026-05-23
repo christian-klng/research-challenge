@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { generateChallenge } from './services/geminiService';
+import { generateChallenge } from './services/challengeService';
 import { ResearchChallenge } from './types';
 import { Steps } from './components/Steps';
 import { ChallengeCard } from './components/ChallengeCard';
@@ -86,7 +86,7 @@ const App: React.FC = () => {
       </main>
       
       <footer className="text-center text-slate-400 text-sm mt-24">
-        <p>© {new Date().getFullYear()} Classroom Tools. Powered by Google Gemini.</p>
+        <p>© {new Date().getFullYear()} Classroom Tools. Powered by OpenAI.</p>
       </footer>
     </div>
   );

@@ -1,20 +1,53 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# NotebookLM Research Challenge
 
-# Run and deploy your AI Studio app
+Ein Zufallsgenerator für Recherche-Aufgaben. Generiert anspruchsvolle Themen, Leitfragen und PDF-Such-Strategien für den Einsatz mit NotebookLM im Unterricht.
 
-This contains everything you need to run your app locally.
+Frontend: React + Vite. Backend: kleiner Express-Proxy, der OpenAI mit `gpt-4o-mini` (Structured Outputs) aufruft. Der API-Key bleibt serverseitig.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1hID_aFuYTtMcNeixWICNjv3CauDQoI1h
+## Lokale Entwicklung
 
-## Run Locally
+**Voraussetzungen:** Node.js ≥ 20
 
-**Prerequisites:**  Node.js
+```bash
+npm install
+cp .env.example .env
+# OPENAI_API_KEY in .env eintragen
+```
 
+Zwei Prozesse parallel starten:
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+```bash
+npm run dev:server   # API-Proxy auf http://localhost:8787
+npm run dev          # Vite-Dev-Server auf http://localhost:3000 (proxyt /api weiter)
+```
+
+Oder produktionsnah:
+
+```bash
+npm run build
+npm start            # Express liefert dist/ + /api auf einem Port
+```
+
+## Deployment auf Railway
+
+1. Repo in Railway als neues Projekt verknüpfen ("Deploy from GitHub repo").
+2. Unter **Variables** eintragen:
+   - `OPENAI_API_KEY` — dein OpenAI Key (Pflicht)
+   - `OPENAI_MODEL` — optional, Default `gpt-4o-mini`
+3. Railway setzt `PORT` automatisch — nicht manuell anlegen.
+4. Build- und Start-Command sind in `railway.json` hinterlegt:
+   - Build: `npm ci && npm run build`
+   - Start: `node server.js`
+
+Das war's. Beim Push auf den Main-Branch baut und deployt Railway automatisch.
+
+## Architektur
+
+```
+Browser  ──fetch /api/generate-challenge──▶  server.js (Express)
+                                                │
+                                                ▼
+                                          OpenAI API
+```
+
+Der OpenAI-Key wird niemals an den Client ausgeliefert. Bei fehlendem Key oder API-Fehler liefert der Server statisches Fallback-Material.
