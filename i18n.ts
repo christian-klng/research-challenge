@@ -57,7 +57,7 @@ export const translations: Record<Lang, Translation> = {
     questionLabel: 'Die Challenge-Frage',
     keywordsLabel: 'Keywords für die Suche',
     pdfStrategyLabel: 'PDF Such-Tipp',
-    footer: (year) => `© ${year} Classroom Tools. Powered by OpenAI.`,
+    footer: (year) => `© ${year} Classroom Tools. Powered by OpenAI. · Erstellt durch Christian Klang`,
   },
   en: {
     edition: 'Classroom Edition',
@@ -92,6 +92,6 @@ export const translations: Record<Lang, Translation> = {
     questionLabel: 'The Challenge Question',
     keywordsLabel: 'Keywords for the search',
     pdfStrategyLabel: 'PDF Search Tip',
-    footer: (year) => `© ${year} Classroom Tools. Powered by OpenAI.`,
+    footer: (year) => `© ${year} Classroom Tools. Powered by OpenAI. · Created by Christian Klang`,
   },
 };
