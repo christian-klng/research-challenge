@@ -1,12 +1,14 @@
 import React from 'react';
 import { ResearchChallenge } from '../types';
+import { Translation } from '../i18n';
 
 interface ChallengeCardProps {
   challenge: ResearchChallenge | null;
   loading: boolean;
+  t: Translation;
 }
 
-export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading }) => {
+export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading, t }) => {
   if (loading) {
     return (
       <div className="w-full max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-slate-200">
@@ -33,7 +35,7 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading
   if (!challenge) {
     return (
       <div className="w-full max-w-3xl mx-auto bg-white/50 border border-dashed border-slate-300 rounded-2xl p-12 text-center text-slate-400">
-        <p className="text-lg">Klicke auf "Neue Challenge generieren", um zu beginnen.</p>
+        <p className="text-lg">{t.cardEmpty}</p>
       </div>
     );
   }
@@ -48,10 +50,10 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading
         <div className="mb-10">
           <div className="flex items-center gap-2 mb-3">
             <span className="px-3 py-1 bg-indigo-50 text-indigo-700 text-xs font-bold uppercase tracking-wider rounded-full">
-              Das Thema
+              {t.badgeTopic}
             </span>
             <span className="px-3 py-1 bg-purple-50 text-purple-700 text-xs font-bold uppercase tracking-wider rounded-full">
-              PDF-Recherche
+              {t.badgePdf}
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-2 leading-tight">
@@ -69,7 +71,7 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading
               </svg>
             </div>
           </div>
-          <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3 ml-2">Die Challenge-Frage</h3>
+          <h3 className="text-sm font-semibold text-slate-400 uppercase tracking-wide mb-3 ml-2">{t.questionLabel}</h3>
           <p className="text-xl md:text-2xl font-serif text-slate-800 leading-relaxed italic">
             "{challenge.question}"
           </p>
@@ -82,7 +84,7 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                 <path fillRule="evenodd" d="M9 3.5a5.5 5.5 0 1 0 0 11 5.5 5.5 0 0 0 0-11ZM2 9a7 7 0 1 1 12.452 4.391l3.328 3.329a.75.75 0 1 1-1.06 1.06l-3.329-3.328A7 7 0 0 1 2 9Z" clipRule="evenodd" />
               </svg>
-              Keywords für die Suche
+              {t.keywordsLabel}
             </h4>
             <div className="flex flex-wrap gap-2">
               {challenge.keywords.map((kw, i) => (
@@ -97,7 +99,7 @@ export const ChallengeCard: React.FC<ChallengeCardProps> = ({ challenge, loading
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4">
                   <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                 </svg>
-                PDF Such-Tipp
+                {t.pdfStrategyLabel}
              </h4>
              <p className="text-sm text-slate-600">
                {challenge.pdfStrategy}
