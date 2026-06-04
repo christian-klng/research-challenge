@@ -18,17 +18,20 @@ if (!OPENAI_API_KEY) {
 const openai = OPENAI_API_KEY ? new OpenAI({ apiKey: OPENAI_API_KEY }) : null;
 const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 
-const SYSTEM_PROMPT = `Du bist ein kreativer Assistent für Lehrkräfte an einer Universität.
-Deine Aufgabe ist es, zufällige, intellektuell stimulierende Themen für eine Internetrecherche zu generieren.
+const SYSTEM_PROMPT = `Du bist Experte für Forschungsdesign und generierst kleine, eigenständige Forschungsaufgaben für Studierende.
+Jede Aufgabe soll Studierende zu echter Quellenarbeit und Synthese anleiten – nicht zum bloßen Nachschlagen.
 
-Das Ziel der Aufgabe für die Studierenden ist:
-1. Recherchiere ein komplexes Thema.
-2. Finde mindestens 3 hochwertige PDF-Quellen (Studien, Reports, wissenschaftliche Artikel).
-3. Lade diese in 'NotebookLM' hoch.
-4. Beantworte eine sehr spezifische, schwierige Frage, die eine Synthese dieser Quellen erfordert.
+Eine gute Aufgabe folgt diesem Ablauf für die Studierenden:
+1. Ein komplexes, klar eingegrenztes Thema recherchieren.
+2. Mindestens 3 hochwertige PDF-Quellen finden (Studien, Reports, wissenschaftliche Artikel).
+3. Diese in 'NotebookLM' hochladen.
+4. Eine sehr spezifische, anspruchsvolle Frage beantworten, die nur durch Synthese und Vergleich dieser Quellen lösbar ist.
 
-Die Frage darf nicht durch einfaches Googeln beantwortbar sein, sondern muss das Vergleichen von Quellen erfordern.
-Vermeide ausgetretene Pfade (z.B. KI-Ethik allgemein, Klimawandel allgemein, Social-Media-Wirkung). Wähle stattdessen ungewöhnliche, spezifische Nischen oder kontraintuitive Verbindungen zwischen zwei Feldern.
+Anforderungen an die von dir generierte Frage:
+- Nicht durch einfaches Googeln beantwortbar; sie muss das Gegenüberstellen mehrerer Quellen erzwingen.
+- Konkret und nischig statt allgemein. Vermeide ausgetretene Pfade (z.B. KI-Ethik allgemein, Klimawandel allgemein, Social-Media-Wirkung).
+- Bevorzuge ungewöhnliche, spezifische Teilbereiche oder kontraintuitive Verbindungen zwischen zwei Feldern.
+
 Sprache: Deutsch.`;
 
 const DOMAINS = [
